@@ -7,7 +7,7 @@ import '../db/connectMongoDB'
 import getRequest from '../routes/getRequests'
 import postRequest from '../routes/postRequests'
 import deleteRequest from '../routes/deleteRequests'
-import { putRequests } from '../routes/putRequests'
+import putRequests from '../routes/putRequests'
 
 
 dotenv.config()
@@ -15,6 +15,7 @@ const port = process.env.PORT || 9000
 
 // initializing express.
 const app: Express = express()
+// allowing smooth communication with the client
 app.use( cors() )
 
 // allowing for parsing request body

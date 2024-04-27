@@ -1,19 +1,16 @@
-import express, { Request, Response } from 'express'
-import { EmployeeModel } from '../db/employeeModel'
-import { MasterEmployeeModel } from '../db/masterEmployeeModel'
-
-
-
-
-
-
-const putRequests = express.Router()
-
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const employeeModel_1 = require("../db/employeeModel");
+const masterEmployeeModel_1 = require("../db/masterEmployeeModel");
+const putRequests = express_1.default.Router();
 // put request to update employee property.
-putRequests.put('/update-employee-data/:empID', ( req: Request, res: Response ) => {
-    
+putRequests.put('/update-employee-data/:empID', (req, res) => {
     // updating matching record in regular employee collection
-    EmployeeModel.findOneAndUpdate({ vagEmployeeID: req.params.empID }, {
+    employeeModel_1.EmployeeModel.findOneAndUpdate({ vagEmployeeID: req.params.empID }, {
         vagEmployeeID: req.body.vagEmployeeID,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -30,19 +27,16 @@ putRequests.put('/update-employee-data/:empID', ( req: Request, res: Response ) 
         bankAccountNumber: req.body.bankAccountNumber,
         ssnitNumber: req.body.ssnitNumber
     }, { returnDocument: 'before' }).exec()
-    .then(( doc: any ) => {
-        console.log(`document updated successfully in regular employee collection... ${ doc }`)
-        res.status(200).json( doc )
+        .then((doc) => {
+        console.log(`document updated successfully in regular employee collection... ${doc}`);
+        res.status(200).json(doc);
     })
-    .catch((err: any ) => {
-        console.log(`failed to update document due to error in regular employee collection, ${ err }`)
-        res.status(200).json( err )
-    })
-
-
-
+        .catch((err) => {
+        console.log(`failed to update document due to error in regular employee collection, ${err}`);
+        res.status(200).json(err);
+    });
     // updating matching record in the master undeletable employee collection
-    MasterEmployeeModel.findOneAndUpdate({ vagEmployeeID: req.params.empID }, {
+    masterEmployeeModel_1.MasterEmployeeModel.findOneAndUpdate({ vagEmployeeID: req.params.empID }, {
         vagEmployeeID: req.body.vagEmployeeID,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -59,20 +53,13 @@ putRequests.put('/update-employee-data/:empID', ( req: Request, res: Response ) 
         bankAccountNumber: req.body.bankAccountNumber,
         ssnitNumber: req.body.ssnitNumber
     }, { returnDocument: 'before' }).exec()
-    .then(( doc: any ) => {
-        console.log(`document updated successfully in master employee collection... ${ doc }`)
+        .then((doc) => {
+        console.log(`document updated successfully in master employee collection... ${doc}`);
         // res.status(200).json( doc )
     })
-    .catch((err: any ) => {
-        console.log(`failed to update document due to error in master employee collection, ${ err }`)
+        .catch((err) => {
+        console.log(`failed to update document due to error in master employee collection, ${err}`);
         // res.status(200).json( err )
-    })
-
-
-
-
-})
-
-
-
-export default putRequests
+    });
+});
+exports.default = putRequests;

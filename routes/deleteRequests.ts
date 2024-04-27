@@ -7,7 +7,6 @@ import { EmployeeModel } from '../db/employeeModel'
 
 const deleteRequest = express.Router()
 
-
 // delete request to delete particular employee.
 deleteRequest.delete('/delete-employee/:empID', ( req: Request, res: Response ) => {
     EmployeeModel.findOneAndDelete({ vagEmployeeID: req.params.empID }).exec()

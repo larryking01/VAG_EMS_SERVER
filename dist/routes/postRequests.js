@@ -1,20 +1,17 @@
-import express, { Request, Response } from 'express'
-import { Error, Document } from 'mongoose'
-import { EmployeeModel } from '../db/employeeModel'
-import { MasterEmployeeModel } from '../db/masterEmployeeModel'
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const employeeModel_1 = require("../db/employeeModel");
+const masterEmployeeModel_1 = require("../db/masterEmployeeModel");
 // import { MongoServerError } from 'mongodb'
-
-
-
-
-
-const postRequest = express.Router()
-
+const postRequest = express_1.default.Router();
 // defining the post requests.
-postRequest.post('/add-new-employee', ( req: Request, res: Response ) => {
-
+postRequest.post('/add-new-employee', (req, res) => {
     // saving to the regular employee model
-    let newEmployee = new EmployeeModel({
+    let newEmployee = new employeeModel_1.EmployeeModel({
         vagEmployeeID: req.body.vagEmployeeID,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -30,27 +27,24 @@ postRequest.post('/add-new-employee', ( req: Request, res: Response ) => {
         dateOfEmployment: req.body.dateOfEmployment,
         bankAccountNumber: req.body.bankAccountNumber,
         ssnitNumber: req.body.ssnitNumber
-    })
+    });
     newEmployee.save()
-    .then(( employee: Document ) => {
-        console.log(`new employee saved successfully to regular collection...${ employee }`)
-        res.status(200).json( employee )
+        .then((employee) => {
+        console.log(`new employee saved successfully to regular collection...${employee}`);
+        res.status(200).json(employee);
     })
-    .catch(( err: Error ) => {
-        if( err.message.includes('E11000') ) {
-            console.log('duplication error')
-            res.status(500).json('Failed to add employee to regular collection due to duplication error. Document already exists...')
+        .catch((err) => {
+        if (err.message.includes('E11000')) {
+            console.log('duplication error');
+            res.status(500).json('Failed to add employee to regular collection due to duplication error. Document already exists...');
         }
         else {
-            console.log(`an error occurred, ${ err.message }`)
-            res.status(500).send(`failed to save new employee to regular collection due to error, ${ err.message }`)
+            console.log(`an error occurred, ${err.message}`);
+            res.status(500).send(`failed to save new employee to regular collection due to error, ${err.message}`);
         }
-    })
-
-
-
+    });
     // saving to the master undeletable employee model
-    let newMasterEmployee = new MasterEmployeeModel({
+    let newMasterEmployee = new masterEmployeeModel_1.MasterEmployeeModel({
         vagEmployeeID: req.body.vagEmployeeID,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -66,27 +60,23 @@ postRequest.post('/add-new-employee', ( req: Request, res: Response ) => {
         dateOfEmployment: req.body.dateOfEmployment,
         bankAccountNumber: req.body.bankAccountNumber,
         ssnitNumber: req.body.ssnitNumber
-    })
+    });
     newMasterEmployee.save()
-    .then(( masterEmployee: Document ) => {
-        console.log(`new employee saved successfully to master collection...${ masterEmployee }`)
+        .then((masterEmployee) => {
+        console.log(`new employee saved successfully to master collection...${masterEmployee}`);
         // res.status(200).json( masterEmployee )
     })
-    .catch(( err: Error ) => {
-        if( err.message.includes('E11000') ) {
-            console.log('Failed to add employee to master collection due to duplication error. Document already exists...')
+        .catch((err) => {
+        if (err.message.includes('E11000')) {
+            console.log('Failed to add employee to master collection due to duplication error. Document already exists...');
             // res.status(500).json('Failed to add employee to regular collection due to duplication error. Document already exists...')
         }
         else {
-            console.log(`failed to save new employee to master collection due to error, ${ err.message }`)
+            console.log(`failed to save new employee to master collection due to error, ${err.message}`);
             // res.status(500).send(`failed to save new employee to regular collection due to error, ${ err.message }`)
         }
-    })
-
-})
-
-
-
+    });
+});
 //post request to update employee property.
 // postRequest.post('/update-employee-data/:empID', ( req: Request, res: Response ) => {
 //     EmployeeModel.findOneAndUpdate({ vagEmployeeID: req.params.empID }, {
@@ -115,8 +105,4 @@ postRequest.post('/add-new-employee', ( req: Request, res: Response ) => {
 //         res.status(200).json( err )
 //     })
 // })
-
-
-
-
-export default postRequest
+exports.default = postRequest;

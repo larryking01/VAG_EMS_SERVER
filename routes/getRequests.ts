@@ -13,6 +13,7 @@ getRequest.get('/find-employee/:searchTerm', ( req: Request, res: Response ) => 
         { vagEmployeeID: req.params.searchTerm },
         { firstName: req.params.searchTerm },
         { lastName: req.params.searchTerm },
+        { otherNames: req.params.searchTerm },
         { primaryEmail: req.params.searchTerm },
         { secondaryEmail: req.params.searchTerm },
         { primaryMobileNumber: req.params.searchTerm },
