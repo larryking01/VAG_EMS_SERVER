@@ -4,10 +4,10 @@ import dotenv from 'dotenv'
 import cors from 'cors'
 import '../db/connectMongoDB'
 // importing file modules
-import getRequest from '../routes/getRequests'
-import postRequest from '../routes/postRequests'
-import deleteRequest from '../routes/deleteRequests'
-import putRequests from '../routes/putRequests'
+import getRouter from '../routes/getRequests'
+import postRouter from '../routes/postRequests'
+import deleteRouter from '../routes/deleteRequests'
+import putRouter from '../routes/putRequests'
 
 
 dotenv.config()
@@ -22,10 +22,10 @@ app.use( cors() )
 app.use( express.json() )
 app.use( express.urlencoded({ extended: false }))
 
-app.use( '/get', getRequest )
-app.use( '/post', postRequest )
-app.use( '/del', deleteRequest )
-app.use( '/put', putRequests )
+app.use( '/get', getRouter )
+app.use( '/post', postRouter )
+app.use( '/del', deleteRouter )
+app.use( '/put', putRouter )
 
 app.get('*', ( req: Request, res: Response ) => {
     res.send('Sorry, path does not exist')

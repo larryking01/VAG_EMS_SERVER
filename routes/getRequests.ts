@@ -1,14 +1,14 @@
 import express, { Request, Response } from 'express'
-import { Document, Error } from 'mongoose'
 import { EmployeeModel } from '../db/employeeModel'
 import { MasterEmployeeModel } from '../db/masterEmployeeModel'
-const getRequest = express.Router()
+import { EmployeeLeaveModel } from '../db/leaveModel'
 
 
 
+const getRouter = express.Router()
 
 // the get request to fetch a particular employee.
-getRequest.get('/find-employee/:searchTerm', ( req: Request, res: Response ) => {
+getRouter.get('/find-employee/:searchTerm', ( req: Request, res: Response ) => {
     EmployeeModel.find({ $or: [
         { vagEmployeeID: req.params.searchTerm },
         { firstName: req.params.searchTerm },
@@ -33,7 +33,7 @@ getRequest.get('/find-employee/:searchTerm', ( req: Request, res: Response ) => 
 
 
 // the get request to fetch all employees.
-getRequest.get('/fetch-all-employees', ( req: Request, res: Response ) => {
+getRouter.get('/fetch-all-employees', ( req: Request, res: Response ) => {
     EmployeeModel.find({}).exec()
     .then(( doc: any ) => {
         console.log(`all documents found... ${ doc }`)
@@ -48,7 +48,7 @@ getRequest.get('/fetch-all-employees', ( req: Request, res: Response ) => {
 
 
 // fetch all employees from master collection.
-getRequest.get('/fetch-all-employees-master', ( req: Request, res: Response ) => {
+getRouter.get('/fetch-all-employees-master', ( req: Request, res: Response ) => {
     MasterEmployeeModel.find({}).exec()
     .then(( employees: any ) => {
         console.log('all employees fetched from master')
@@ -62,8 +62,22 @@ getRequest.get('/fetch-all-employees-master', ( req: Request, res: Response ) =>
 
 
 
+// fetching all leave records.
+getRouter.get('/fetch-all-leave-records', ( req: Request, res: Response ) => {
+    EmployeeLeaveModel.find({}).exec()
+    .then(( leaveRecords: any ) => {
+        console.log(`all leave records fetched successfully.. ${ leaveRecords }`)
+        res.status( 200 ).json( leaveRecords )
+    })
+    .catch(( err: any ) => {
+        console.log(`failed to fetch all leave records due to error, ${ err }`)
+        res.status( 500 ).json( err )
+    })
+})
 
 
 
 
-export default getRequest
+
+
+export default getRouter

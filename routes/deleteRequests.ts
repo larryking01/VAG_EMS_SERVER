@@ -1,14 +1,14 @@
 import express, { Request, Response } from 'express'
 import { EmployeeModel } from '../db/employeeModel'
+import { EmployeeLeaveModel } from '../db/leaveModel'
 
 
 
 
-
-const deleteRequest = express.Router()
+const deleteRouter = express.Router()
 
 // delete request to delete particular employee.
-deleteRequest.delete('/delete-employee/:empID', ( req: Request, res: Response ) => {
+deleteRouter.delete('/delete-employee/:empID', ( req: Request, res: Response ) => {
     EmployeeModel.findOneAndDelete({ vagEmployeeID: req.params.empID }).exec()
     .then(( doc: any ) => {
         console.log(`employee deleted, ${ doc }`)
@@ -22,5 +22,22 @@ deleteRequest.delete('/delete-employee/:empID', ( req: Request, res: Response ) 
 
 
 
+// delete request to delete employee leave record
+deleteRouter.delete('/delete-employee-leave-instance/:empID', ( req: Request, res: Response ) => {
+    EmployeeLeaveModel.findOneAndDelete({ vagEmployeeID: req.params.empID }).exec()
+    .then(( leaveInstance: any ) => {
+        console.log(`leave instance deleted for employee ${ req.params.empID } as follows ${ leaveInstance }`)
+        res.status( 200 ).json( leaveInstance )
+    })
+    .catch(( err: any ) => {
+        console.log(`failed to delete leave instance for employee ${ req.params.empID } due to error, ${ err }`)
+        res.status( 500 ).json( err )
+    })
+})
 
-export default deleteRequest
+
+
+
+
+
+export default deleteRouter
