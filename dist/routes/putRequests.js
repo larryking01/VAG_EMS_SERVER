@@ -6,9 +6,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const employeeModel_1 = require("../db/employeeModel");
 const masterEmployeeModel_1 = require("../db/masterEmployeeModel");
-const putRequests = express_1.default.Router();
+const leaveModel_1 = require("../db/leaveModel");
+const putRouter = express_1.default.Router();
 // put request to update employee property.
-putRequests.put('/update-employee-data/:empID', (req, res) => {
+putRouter.put('/update-employee-data/:empID', (req, res) => {
     // updating matching record in regular employee collection
     employeeModel_1.EmployeeModel.findOneAndUpdate({ vagEmployeeID: req.params.empID }, {
         vagEmployeeID: req.body.vagEmployeeID,
@@ -62,4 +63,25 @@ putRequests.put('/update-employee-data/:empID', (req, res) => {
         // res.status(200).json( err )
     });
 });
-exports.default = putRequests;
+// put request to update employee leave.
+putRouter.put('/update-employee-leave/:empID', (req, res) => {
+    leaveModel_1.EmployeeLeaveModel.findOneAndUpdate({ vagEmployeeID: req.params.empID }, {
+        vagEmployeeID: req.body.vagEmployeeID,
+        employeeFirstName: req.body.employeeFirstName,
+        employeeOtherNames: req.body.employeeOtherNames,
+        employeeLastName: req.body.employeeLastName,
+        leaveStartDate: req.body.leaveStartDate,
+        leaveEndDate: req.body.leaveEndDate,
+        typeOfLeave: req.body.typeOfLeave,
+        reasonForLeave: req.body.reasonForLeave
+    }, { returnDocument: 'before' }).exec()
+        .then((leaveSession) => {
+        console.log(`leave session updated successfully for employee, ${req.params.empID} as follows ${leaveSession}`);
+        res.status(200).json(leaveSession);
+    })
+        .catch((err) => {
+        console.log(`failed to update leave session for employee, ${req.params.empID} due to error, ${err}`);
+        res.status(500).json(err);
+    });
+});
+exports.default = putRouter;

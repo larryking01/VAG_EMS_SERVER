@@ -25,11 +25,12 @@ postRouter.post('/add-new-employee', ( req: Request, res: Response ) => {
         primaryMobileNumber: req.body.primaryMobileNumber,
         secondaryMobileNumber: req.body.secondaryMobileNumber,
         dateOfBirth: req.body.dateOfBirth,
-        position: req.body.position,
-        department: req.body.department,
+        appointment: req.body.appointment,
+        typeOfEmployee: req.body.typeOfEmployee,
         dateOfEmployment: req.body.dateOfEmployment,
         bankAccountNumber: req.body.bankAccountNumber,
-        ssnitNumber: req.body.ssnitNumber
+        ssnitNumber: req.body.ssnitNumber,
+        employeePhoto: req.body.employeePhoto
     })
     newEmployee.save()
     .then(( employee: Document ) => {
@@ -61,11 +62,13 @@ postRouter.post('/add-new-employee', ( req: Request, res: Response ) => {
         primaryMobileNumber: req.body.primaryMobileNumber,
         secondaryMobileNumber: req.body.secondaryMobileNumber,
         dateOfBirth: req.body.dateOfBirth,
-        position: req.body.position,
-        department: req.body.department,
+        appointment: req.body.appointment,
+        typeOfEmployee: req.body.typeOfEmployee,
         dateOfEmployment: req.body.dateOfEmployment,
         bankAccountNumber: req.body.bankAccountNumber,
-        ssnitNumber: req.body.ssnitNumber
+        ssnitNumber: req.body.ssnitNumber,
+        employeePhoto: req.body.employeePhoto
+
     })
     newMasterEmployee.save()
     .then(( masterEmployee: Document ) => {

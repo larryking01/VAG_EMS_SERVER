@@ -17,9 +17,23 @@ getRouter.get('/find-employee/:searchTerm', ( req: Request, res: Response ) => {
         { primaryEmail: req.params.searchTerm },
         { secondaryEmail: req.params.searchTerm },
         { primaryMobileNumber: req.params.searchTerm },
-        { position: req.params.searchTerm },
-        { department: req.params.searchTerm }
+        { appointment: req.params.searchTerm },
+        { typeOfEmployee: req.params.searchTerm }
     ]}).exec()
+    .then(( doc: any ) => {
+        console.log(`employee found, ${ doc }`)
+        res.status(200).json( doc )
+    })
+    .catch( ( err: any ) => {
+        console.log(`sorry, employee not found, ${ err }`)
+        res.status(404).json('sorry, employee not found')
+    } )
+})
+
+
+// the get request to fetch unique employee
+getRouter.get('/fetch-employee-details/:empID', ( req: Request, res: Response ) => {
+    EmployeeModel.findOne({ vagEmployeeID: req.params.empID }).exec()
     .then(( doc: any ) => {
         console.log(`employee found, ${ doc }`)
         res.status(200).json( doc )

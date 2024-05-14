@@ -14,12 +14,12 @@ interface MasterEmployee {
     primaryEmail: string;
     secondaryEmail?: string;
     dateOfBirth: string;
-    position: string;
-    department: string;
+    appointment: string;
+    typeOfEmployee: string;
     dateOfEmployment: string;
     bankAccountNumber: string;
     ssnitNumber: string;
-    employeePhoto?: string;
+    employeePhoto: string;
 
 }
 
@@ -37,12 +37,12 @@ const MasterEmployeeSchema = new Schema<MasterEmployee>({
     primaryEmail: { type: String, required: true },
     secondaryEmail: { type: String, required: false },
     dateOfBirth: { type: String, required: true },
-    position: { type: String, required: true },
-    department: { type: String, required: true },
+    appointment: { type: String, required: true },
+    typeOfEmployee: { type: String, required: true },
     dateOfEmployment: { type: String, required: true },
     bankAccountNumber: { type: String, required: true },
     ssnitNumber: { type: String, required: true },
-    employeePhoto: { type: String, required: false }
+    employeePhoto: { type: String, required: true }
 
 }, { timestamps: { createdAt: new Date().toDateString(), updatedAt: new Date().toLocaleString() } }) 
 

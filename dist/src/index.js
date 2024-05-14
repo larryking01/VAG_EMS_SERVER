@@ -21,7 +21,7 @@ const app = (0, express_1.default)();
 app.use((0, cors_1.default)());
 // allowing for parsing request body
 app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({ extended: false }));
+app.use(express_1.default.urlencoded({ extended: true }));
 app.use('/get', getRequests_1.default);
 app.use('/post', postRequests_1.default);
 app.use('/del', deleteRequests_1.default);

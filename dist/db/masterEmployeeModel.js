@@ -14,12 +14,12 @@ const MasterEmployeeSchema = new mongoose_1.Schema({
     primaryEmail: { type: String, required: true },
     secondaryEmail: { type: String, required: false },
     dateOfBirth: { type: String, required: true },
-    position: { type: String, required: true },
-    department: { type: String, required: true },
+    appointment: { type: String, required: true },
+    typeOfEmployee: { type: String, required: true },
     dateOfEmployment: { type: String, required: true },
     bankAccountNumber: { type: String, required: true },
     ssnitNumber: { type: String, required: true },
-    employeePhoto: { type: String, required: false }
+    employeePhoto: { type: String, required: true }
 }, { timestamps: { createdAt: new Date().toDateString(), updatedAt: new Date().toLocaleString() } });
 // master employee model.
 const MasterEmployeeModel = (0, mongoose_1.model)('MasterEmployeeModel', MasterEmployeeSchema);

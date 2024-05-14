@@ -7,9 +7,10 @@ const express_1 = __importDefault(require("express"));
 const employeeModel_1 = require("../db/employeeModel");
 const masterEmployeeModel_1 = require("../db/masterEmployeeModel");
 // import { MongoServerError } from 'mongodb'
-const postRequest = express_1.default.Router();
+const leaveModel_1 = require("../db/leaveModel");
+const postRouter = express_1.default.Router();
 // defining the post requests.
-postRequest.post('/add-new-employee', (req, res) => {
+postRouter.post('/add-new-employee', (req, res) => {
     // saving to the regular employee model
     let newEmployee = new employeeModel_1.EmployeeModel({
         vagEmployeeID: req.body.vagEmployeeID,
@@ -22,11 +23,12 @@ postRequest.post('/add-new-employee', (req, res) => {
         primaryMobileNumber: req.body.primaryMobileNumber,
         secondaryMobileNumber: req.body.secondaryMobileNumber,
         dateOfBirth: req.body.dateOfBirth,
-        position: req.body.position,
-        department: req.body.department,
+        appointment: req.body.appointment,
+        typeOfEmployee: req.body.typeOfEmployee,
         dateOfEmployment: req.body.dateOfEmployment,
         bankAccountNumber: req.body.bankAccountNumber,
-        ssnitNumber: req.body.ssnitNumber
+        ssnitNumber: req.body.ssnitNumber,
+        employeePhoto: req.body.employeePhoto
     });
     newEmployee.save()
         .then((employee) => {
@@ -55,11 +57,12 @@ postRequest.post('/add-new-employee', (req, res) => {
         primaryMobileNumber: req.body.primaryMobileNumber,
         secondaryMobileNumber: req.body.secondaryMobileNumber,
         dateOfBirth: req.body.dateOfBirth,
-        position: req.body.position,
-        department: req.body.department,
+        appointment: req.body.appointment,
+        typeOfEmployee: req.body.typeOfEmployee,
         dateOfEmployment: req.body.dateOfEmployment,
         bankAccountNumber: req.body.bankAccountNumber,
-        ssnitNumber: req.body.ssnitNumber
+        ssnitNumber: req.body.ssnitNumber,
+        employeePhoto: req.body.employeePhoto
     });
     newMasterEmployee.save()
         .then((masterEmployee) => {
@@ -77,32 +80,26 @@ postRequest.post('/add-new-employee', (req, res) => {
         }
     });
 });
-//post request to update employee property.
-// postRequest.post('/update-employee-data/:empID', ( req: Request, res: Response ) => {
-//     EmployeeModel.findOneAndUpdate({ vagEmployeeID: req.params.empID }, {
-//         vagEmployeeID: req.body.vagEmployeeID,
-//         firstName: req.body.firstName,
-//         lastName: req.body.lastName,
-//         otherNames: req.body.otherNames,
-//         gender: req.body.gender,
-//         primaryEmail: req.body.primaryEmail,
-//         secondaryEmail: req.body.secondaryEmail,
-//         primaryMobileNumber: req.body.primaryMobileNumber,
-//         secondaryMobileNumber: req.body.secondaryMobileNumber,
-//         dateOfBirth: req.body.dateOfBirth,
-//         position: req.body.position,
-//         department: req.body.department,
-//         dateOfEmployment: req.body.dateOfEmployment,
-//         bankAccountNumber: req.body.bankAccountNumber,
-//         ssnitNumber: req.body.ssnitNumber
-//     }, { returnDocument: 'after' }).exec()
-//     .then(( doc: any ) => {
-//         console.log(`document updated successfully... ${ doc }`)
-//         res.status(200).json( doc )
-//     })
-//     .catch((err: any ) => {
-//         console.log(`failed to update document due to error, ${ err }`)
-//         res.status(200).json( err )
-//     })
-// })
-exports.default = postRequest;
+// post request to create a leave instance for an employee.
+postRouter.post('/create-employee-leave', (req, res) => {
+    const newEmployeeLeaveSession = new leaveModel_1.EmployeeLeaveModel({
+        vagEmployeeID: req.body.vagEmployeeID,
+        employeeFirstName: req.body.employeeFirstName,
+        employeeOtherNames: req.body.employeeOtherNames,
+        employeeLastName: req.body.employeeLastName,
+        leaveStartDate: req.body.leaveStartDate,
+        leaveEndDate: req.body.leaveEndDate,
+        typeOfLeave: req.body.typeOfLeave,
+        reasonForLeave: req.body.reasonForLeave
+    });
+    newEmployeeLeaveSession.save()
+        .then((leaveSession) => {
+        console.log(`new leave session created for employee ${req.body.vagEmployeeID} as follows ${leaveSession}`);
+        res.status(200).json(leaveSession);
+    })
+        .catch((err) => {
+        console.log(`failed to create leave session for employee ${req.body.vagEmployeeID} due to error, ${err}`);
+        res.status(500).json(err);
+    });
+});
+exports.default = postRouter;
