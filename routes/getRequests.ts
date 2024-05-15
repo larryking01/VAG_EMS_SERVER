@@ -90,6 +90,66 @@ getRouter.get('/fetch-all-leave-records', ( req: Request, res: Response ) => {
 })
 
 
+// fetching all military staff
+getRouter.get('/fetch-military-staff', ( req: Request, res: Response ) => {
+    EmployeeModel.find({ $or: [
+        { typeOfEmployee: 'MILITARY (ACTIVE)'},
+        { typeOfEmployee: 'MILITARY (RETIRED)'}
+    ]})
+    .exec()
+    .then(( militaryStaff: any ) => {
+        console.log(`military staff fetched.. ${ militaryStaff }`)
+        res.status(200).json( militaryStaff )
+    })
+    .catch(( err: any ) => {
+        console.log(`failed to fetch military staff due to error, ${ err }`)
+        res.status( 500 ).json( err )
+    })
+})
+
+
+// fetching civilian staff.
+getRouter.get('/fetch-civilian-staff', ( req: Request, res: Response ) => {
+    EmployeeModel.find({ typeOfEmployee: 'CIVILIAN' }).exec()
+    .then(( civilianStaff: any ) => {
+        console.log(`civilian staff fetched... ${ civilianStaff }`)
+        res.status(200).json( civilianStaff )
+    })
+    .catch(( err: any ) => {
+        console.log(`failed to fetch civilian staff due to error, ${ err }`)
+        res.status(500).json( err )
+    })
+})
+
+
+// fetching all male staff
+getRouter.get('/fetch-male-staff', ( req: Request, res: Response ) => {
+    EmployeeModel.find({ gender: 'MALE' }).exec()
+    .then(( maleStaff: any ) => {
+        console.log(`all male staff fetched....${ maleStaff }`)
+        res.status( 200 ).json( maleStaff )
+    })
+    .catch(( err: any ) => {
+        console.log(`failed to fetch male staff due to error, ${ err }`)
+        res.status( 500 ).json( err )
+    })
+})
+
+
+
+// fetching all female staff
+getRouter.get('/fetch-female-staff', ( req: Request, res: Response ) => {
+    EmployeeModel.find({ gender: 'FEMALE' }).exec()
+    .then(( femaleStaff: any ) => {
+        console.log(`all female staff fetched....${ femaleStaff }`)
+        res.status( 200 ).json( femaleStaff )
+    })
+    .catch(( err: any ) => {
+        console.log(`failed to fetch female staff due to error, ${ err }`)
+        res.status( 500 ).json( err )
+    })
+})
+
 
 
 
