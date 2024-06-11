@@ -4,6 +4,8 @@ import { EmployeeModel } from '../db/employeeModel'
 import { MasterEmployeeModel } from '../db/masterEmployeeModel'
 // import { MongoServerError } from 'mongodb'
 import { EmployeeLeaveModel } from '../db/leaveModel'
+import { NationalServicePersonnelModel } from '../db/nspModel'
+
 
 
 
@@ -115,6 +117,35 @@ postRouter.post('/create-employee-leave', ( req: Request, res: Response ) => {
 })
 
 
+
+// post request to add a new national service personnel
+postRouter.post('/add-new-nsp', ( req: Request, res: Response ) => {
+
+    const newNationalServicePersonnel = new NationalServicePersonnelModel({
+        uniqueNSPID: req.body.uniqueNSPID,
+        nspFirstName: req.body.nspFirstName,
+        nspLastName: req.body.nspLastName,
+        nspOtherNames: req.body.nspOtherNames,
+        nspInstitutionAttended: req.body.nspInstitutionAttended,
+        nspProgrammeStudied: req.body.nspProgrammeStudied,
+        nspPhoneNumber: req.body.nspPhoneNumber,
+        nspEmail: req.body.nspEmail,
+        nssStartDate: req.body.nssStartDate,
+        nssEndDate: req.body.nssEndDate,
+        nspPhoto: req.body.nspPhoto,
+    
+    })
+    newNationalServicePersonnel.save()
+    .then(( nsp: Document ) => {
+        console.log(`new national service personnel added: ${ nsp }`)
+        res.status( 200 ).json( nsp )
+    })
+    .catch(( err: Error ) => {
+        console.log(`failed to add new national service personnel due to error, ${ err }`)
+        res.status( 500 ).json( err )
+    })
+
+})
 
 
 

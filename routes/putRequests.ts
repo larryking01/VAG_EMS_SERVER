@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express'
-import { Document, Error } from 'mongoose'
+// import { Document, Error } from 'mongoose'
 import { EmployeeModel } from '../db/employeeModel'
 import { MasterEmployeeModel } from '../db/masterEmployeeModel'
 import { EmployeeLeaveModel } from '../db/leaveModel'
-
+import { NationalServicePersonnelModel } from '../db/nspModel'
 
 
 
@@ -72,8 +72,6 @@ putRouter.put('/update-employee-data/:empID', ( req: Request, res: Response ) =>
 })
 
 
-
-
 // put request to update employee leave.
 putRouter.put('/update-employee-leave/:empID', ( req: Request, res: Response ) => {
     EmployeeLeaveModel.findOneAndUpdate({ vagEmployeeID: req.params.empID }, {
@@ -96,6 +94,36 @@ putRouter.put('/update-employee-leave/:empID', ( req: Request, res: Response ) =
         res.status( 500 ).json( err )
     })
 })
+
+
+
+// put router to update nsp details
+putRouter.put('/update-nsp/:nspID', ( req: Request, res: Response ) => {
+    NationalServicePersonnelModel.findOneAndUpdate({ uniqueNSPID: req.params.nspID }, {
+        uniqueNSPID: req.body.uniqueNSPID,
+        nspFirstName: req.body.nspFirstName,
+        nspLastName: req.body.nspLastName,
+        nspOtherNames: req.body.nspOtherNames,
+        nspInstitutionAttended: req.body.nspInstitutionAttended,
+        nspProgrammeStudied: req.body.nspProgrammeStudied,
+        nspPhoneNumber: req.body.nspPhoneNumber,
+        nspEmail: req.body.nspEmail,
+        nssStartDate: req.body.nssStartDate,
+        nssEndDate: req.body.nssEndDate,
+        nspPhoto: req.body.nspPhoto,
+
+    }, { returnDocument: 'before' }).exec()
+    .then(( old_nsp: any ) => {
+        console.log(`nsp details updated successfully ${ old_nsp }`)
+        res.status( 200 ).json( old_nsp )
+    })
+    .catch(( err: any ) => {
+        console.log(`failed to update nsp records due to error, ${ err }`)
+        res.status( 500 ).json( err )
+    })
+})
+
+
 
 
 

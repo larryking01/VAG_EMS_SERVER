@@ -2,11 +2,13 @@ import express, { Request, Response } from 'express'
 import { EmployeeModel } from '../db/employeeModel'
 import { MasterEmployeeModel } from '../db/masterEmployeeModel'
 import { EmployeeLeaveModel } from '../db/leaveModel'
+import { NationalServicePersonnelModel } from '../db/nspModel'
 
 
 
 const getRouter = express.Router()
 
+// for employees
 // the get request to fetch a particular employee.
 getRouter.get('/find-employee/:searchTerm', ( req: Request, res: Response ) => {
     EmployeeModel.find({ $or: [
@@ -31,21 +33,6 @@ getRouter.get('/find-employee/:searchTerm', ( req: Request, res: Response ) => {
 })
 
 
-// the get request to fetch unique employee
-getRouter.get('/fetch-employee-details/:empID', ( req: Request, res: Response ) => {
-    EmployeeModel.findOne({ vagEmployeeID: req.params.empID }).exec()
-    .then(( doc: any ) => {
-        console.log(`employee found, ${ doc }`)
-        res.status(200).json( doc )
-    })
-    .catch( ( err: any ) => {
-        console.log(`sorry, employee not found, ${ err }`)
-        res.status(404).json('sorry, employee not found')
-    } )
-})
-
-
-
 // the get request to fetch all employees.
 getRouter.get('/fetch-all-employees', ( req: Request, res: Response ) => {
     EmployeeModel.find({}).exec()
@@ -59,6 +46,19 @@ getRouter.get('/fetch-all-employees', ( req: Request, res: Response ) => {
     })
 })
 
+
+// the get request to fetch unique employee
+getRouter.get('/fetch-employee-details/:empID', ( req: Request, res: Response ) => {
+    EmployeeModel.findOne({ vagEmployeeID: req.params.empID }).exec()
+    .then(( doc: any ) => {
+        console.log(`employee found, ${ doc }`)
+        res.status(200).json( doc )
+    })
+    .catch( ( err: any ) => {
+        console.log(`sorry, employee not found, ${ err }`)
+        res.status(404).json('sorry, employee not found')
+    } )
+})
 
 
 // fetch all employees from master collection.
@@ -76,6 +76,7 @@ getRouter.get('/fetch-all-employees-master', ( req: Request, res: Response ) => 
 
 
 
+// for leave records
 // fetching all leave records.
 getRouter.get('/fetch-all-leave-records', ( req: Request, res: Response ) => {
     EmployeeLeaveModel.find({}).exec()
@@ -88,6 +89,52 @@ getRouter.get('/fetch-all-leave-records', ( req: Request, res: Response ) => {
         res.status( 500 ).json( err )
     })
 })
+
+
+// fetching particular leave record.
+getRouter.get('/fetch-leave-record/:empID', ( req: Request, res: Response ) => {
+    EmployeeLeaveModel.findOne({ vagEmployeeID: req.params.empID }).exec()
+    .then(( doc: any ) => {
+        console.log(`leave record, ${ doc }`)
+        res.status(200).json( doc )
+    })
+    .catch( ( err: any ) => {
+        console.log(`sorry, no leave record found, ${ err }`)
+        res.status(404).json('sorry, no leave record found')
+    } )
+})
+
+
+
+// for nsp records
+// fetching all national service personnel
+getRouter.get('/fetch-all-nsps', ( req: Request, res: Response ) => {
+    NationalServicePersonnelModel.find({}).exec()
+    .then(( all_nsps: any ) => {
+        console.log(`all nsps fetched successfully.. ${ all_nsps }`)
+        res.status( 200 ).json( all_nsps )
+    })
+    .catch(( err: any ) => {
+        console.log(`failed to fetch all nsps due to error, ${ err }`)
+        res.status( 500 ).json( err )
+    })
+})
+
+
+
+// fetching a particular nsp.
+getRouter.get('/fetch-nsp-details/:nspID', ( req: Request, res: Response ) => {
+    NationalServicePersonnelModel.findOne({ uniqueNSPID: req.params.nspID }).exec()
+    .then(( doc: any ) => {
+        console.log(`national service personnel found, ${ doc }`)
+        res.status(200).json( doc )
+    })
+    .catch( ( err: any ) => {
+        console.log(`sorry, no national service personnel found, ${ err }`)
+        res.status(404).json('sorry, employee not found')
+    } )
+})
+
 
 
 // fetching all military staff
@@ -122,6 +169,7 @@ getRouter.get('/fetch-civilian-staff', ( req: Request, res: Response ) => {
 })
 
 
+
 // fetching all male staff
 getRouter.get('/fetch-male-staff', ( req: Request, res: Response ) => {
     EmployeeModel.find({ gender: 'MALE' }).exec()
@@ -149,6 +197,7 @@ getRouter.get('/fetch-female-staff', ( req: Request, res: Response ) => {
         res.status( 500 ).json( err )
     })
 })
+
 
 
 

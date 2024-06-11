@@ -1,11 +1,13 @@
 import express, { Request, Response } from 'express'
 import { EmployeeModel } from '../db/employeeModel'
 import { EmployeeLeaveModel } from '../db/leaveModel'
+import { NationalServicePersonnelModel } from '../db/nspModel'
 
 
 
 
 const deleteRouter = express.Router()
+
 
 // delete request to delete particular employee.
 deleteRouter.delete('/delete-employee/:empID', ( req: Request, res: Response ) => {
@@ -34,6 +36,22 @@ deleteRouter.delete('/delete-employee-leave-instance/:empID', ( req: Request, re
         res.status( 500 ).json( err )
     })
 })
+
+
+
+// delete request to delete nsp
+deleteRouter.delete('/delete-nsp/:nspID', ( req: Request, res: Response ) => {
+    NationalServicePersonnelModel.findOneAndDelete({ uniqueNSPID: req.params.nspID }).exec()
+    .then(( deletedNSP: any ) => {
+        console.log(`deleted nsp, ${ deletedNSP }`)
+        res.status( 200 ).json( deletedNSP )
+    })
+    .catch(( err: any ) => {
+        console.log(`failed to delete nsp due to error, ${ err }`)
+        res.status( 500 ).json( err )
+    })
+})
+
 
 
 

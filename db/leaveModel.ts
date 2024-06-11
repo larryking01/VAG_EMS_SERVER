@@ -10,7 +10,7 @@ interface EmployeeLeave {
     leaveStartDate: string;
     leaveEndDate: string;
     typeOfLeave: string;
-    reasonForLeave?: string;
+    reasonForLeave: string;
 
 }
 
@@ -31,8 +31,11 @@ const EmployeeLeaveSchema = new Schema<EmployeeLeave>({
 
 
 
+
 // the leave model.
 const EmployeeLeaveModel = model( 'EmployeeLeaveModel', EmployeeLeaveSchema )
+
+
 
 
 export {
