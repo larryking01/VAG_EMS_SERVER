@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const employeeModel_1 = require("../db/employeeModel");
 const leaveModel_1 = require("../db/leaveModel");
+const nspModel_1 = require("../db/nspModel");
 const deleteRouter = express_1.default.Router();
 // delete request to delete particular employee.
 deleteRouter.delete('/delete-employee/:empID', (req, res) => {
@@ -28,6 +29,18 @@ deleteRouter.delete('/delete-employee-leave-instance/:empID', (req, res) => {
     })
         .catch((err) => {
         console.log(`failed to delete leave instance for employee ${req.params.empID} due to error, ${err}`);
+        res.status(500).json(err);
+    });
+});
+// delete request to delete nsp
+deleteRouter.delete('/delete-nsp/:nspID', (req, res) => {
+    nspModel_1.NationalServicePersonnelModel.findOneAndDelete({ uniqueNSPID: req.params.nspID }).exec()
+        .then((deletedNSP) => {
+        console.log(`deleted nsp, ${deletedNSP}`);
+        res.status(200).json(deletedNSP);
+    })
+        .catch((err) => {
+        console.log(`failed to delete nsp due to error, ${err}`);
         res.status(500).json(err);
     });
 });

@@ -8,6 +8,7 @@ const employeeModel_1 = require("../db/employeeModel");
 const masterEmployeeModel_1 = require("../db/masterEmployeeModel");
 // import { MongoServerError } from 'mongodb'
 const leaveModel_1 = require("../db/leaveModel");
+const nspModel_1 = require("../db/nspModel");
 const postRouter = express_1.default.Router();
 // defining the post requests.
 postRouter.post('/add-new-employee', (req, res) => {
@@ -99,6 +100,31 @@ postRouter.post('/create-employee-leave', (req, res) => {
     })
         .catch((err) => {
         console.log(`failed to create leave session for employee ${req.body.vagEmployeeID} due to error, ${err}`);
+        res.status(500).json(err);
+    });
+});
+// post request to add a new national service personnel
+postRouter.post('/add-new-nsp', (req, res) => {
+    const newNationalServicePersonnel = new nspModel_1.NationalServicePersonnelModel({
+        uniqueNSPID: req.body.uniqueNSPID,
+        nspFirstName: req.body.nspFirstName,
+        nspLastName: req.body.nspLastName,
+        nspOtherNames: req.body.nspOtherNames,
+        nspInstitutionAttended: req.body.nspInstitutionAttended,
+        nspProgrammeStudied: req.body.nspProgrammeStudied,
+        nspPhoneNumber: req.body.nspPhoneNumber,
+        nspEmail: req.body.nspEmail,
+        nssStartDate: req.body.nssStartDate,
+        nssEndDate: req.body.nssEndDate,
+        nspPhoto: req.body.nspPhoto,
+    });
+    newNationalServicePersonnel.save()
+        .then((nsp) => {
+        console.log(`new national service personnel added: ${nsp}`);
+        res.status(200).json(nsp);
+    })
+        .catch((err) => {
+        console.log(`failed to add new national service personnel due to error, ${err}`);
         res.status(500).json(err);
     });
 });

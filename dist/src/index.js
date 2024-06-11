@@ -27,7 +27,7 @@ app.use('/post', postRequests_1.default);
 app.use('/del', deleteRequests_1.default);
 app.use('/put', putRequests_1.default);
 app.get('*', (req, res) => {
-    res.send('Sorry, path does not exist');
+    res.send('Sorry, path does not exist...');
 });
 app.listen(port, () => {
     console.log(`server running on port ${port}...`);

@@ -4,9 +4,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+// import { Document, Error } from 'mongoose'
 const employeeModel_1 = require("../db/employeeModel");
 const masterEmployeeModel_1 = require("../db/masterEmployeeModel");
 const leaveModel_1 = require("../db/leaveModel");
+const nspModel_1 = require("../db/nspModel");
 const putRouter = express_1.default.Router();
 // put request to update employee property.
 putRouter.put('/update-employee-data/:empID', (req, res) => {
@@ -81,6 +83,30 @@ putRouter.put('/update-employee-leave/:empID', (req, res) => {
     })
         .catch((err) => {
         console.log(`failed to update leave session for employee, ${req.params.empID} due to error, ${err}`);
+        res.status(500).json(err);
+    });
+});
+// put router to update nsp details
+putRouter.put('/update-nsp/:nspID', (req, res) => {
+    nspModel_1.NationalServicePersonnelModel.findOneAndUpdate({ uniqueNSPID: req.params.nspID }, {
+        uniqueNSPID: req.body.uniqueNSPID,
+        nspFirstName: req.body.nspFirstName,
+        nspLastName: req.body.nspLastName,
+        nspOtherNames: req.body.nspOtherNames,
+        nspInstitutionAttended: req.body.nspInstitutionAttended,
+        nspProgrammeStudied: req.body.nspProgrammeStudied,
+        nspPhoneNumber: req.body.nspPhoneNumber,
+        nspEmail: req.body.nspEmail,
+        nssStartDate: req.body.nssStartDate,
+        nssEndDate: req.body.nssEndDate,
+        nspPhoto: req.body.nspPhoto,
+    }, { returnDocument: 'before' }).exec()
+        .then((old_nsp) => {
+        console.log(`nsp details updated successfully ${old_nsp}`);
+        res.status(200).json(old_nsp);
+    })
+        .catch((err) => {
+        console.log(`failed to update nsp records due to error, ${err}`);
         res.status(500).json(err);
     });
 });
