@@ -28,7 +28,7 @@ app.use( '/del', deleteRouter )
 app.use( '/put', putRouter )
 
 app.get('*', ( req: Request, res: Response ) => {
-    res.send('Sorry, path does not exist')
+    res.send('Sorry, path does not exist...')
 })
 
 
