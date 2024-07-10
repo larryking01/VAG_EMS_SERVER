@@ -13,7 +13,7 @@ interface NationalServicePersonnel {
     nspEmail: string;
     nssStartDate: string;
     nssEndDate: string;
-    nspPhoto?: string;
+    nspPhoto: string;
 }
 
 
@@ -30,13 +30,13 @@ const NationalServicePersonnelSchema = new Schema<NationalServicePersonnel>({
     nspEmail: { type: String, required: true },
     nssStartDate: { type: String, required: true },
     nssEndDate: { type: String, required: true },
-    nspPhoto: { type: String },
+    nspPhoto: { type: String, required: true },
 
 }, { timestamps: { createdAt: new Date().toDateString(), updatedAt: new Date().toLocaleString()}})
 
 
 // the national service personnel model.
-const NationalServicePersonnelModel = model( 'NationalServicePersonnelModel', NationalServicePersonnelSchema )
+const NationalServicePersonnelModel = model<NationalServicePersonnel>( 'NationalServicePersonnelModel', NationalServicePersonnelSchema )
 
 
 export {

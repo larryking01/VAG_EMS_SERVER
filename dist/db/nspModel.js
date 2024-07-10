@@ -14,7 +14,7 @@ const NationalServicePersonnelSchema = new mongoose_1.Schema({
     nspEmail: { type: String, required: true },
     nssStartDate: { type: String, required: true },
     nssEndDate: { type: String, required: true },
-    nspPhoto: { type: String },
+    nspPhoto: { type: String, required: true },
 }, { timestamps: { createdAt: new Date().toDateString(), updatedAt: new Date().toLocaleString() } });
 // the national service personnel model.
 const NationalServicePersonnelModel = (0, mongoose_1.model)('NationalServicePersonnelModel', NationalServicePersonnelSchema);
