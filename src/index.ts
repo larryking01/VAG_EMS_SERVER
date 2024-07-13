@@ -10,6 +10,7 @@ import deleteRouter from '../routes/deleteRequests'
 import putRouter from '../routes/putRequests'
 
 
+// initializing .env
 dotenv.config()
 const port = process.env.PORT || 9000
 
