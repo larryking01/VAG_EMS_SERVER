@@ -13,6 +13,7 @@ const getRequests_1 = __importDefault(require("../routes/getRequests"));
 const postRequests_1 = __importDefault(require("../routes/postRequests"));
 const deleteRequests_1 = __importDefault(require("../routes/deleteRequests"));
 const putRequests_1 = __importDefault(require("../routes/putRequests"));
+// initializing .env
 dotenv_1.default.config();
 const port = process.env.PORT || 9000;
 // initializing express.

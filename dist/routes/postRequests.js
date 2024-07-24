@@ -91,7 +91,9 @@ postRouter.post('/create-employee-leave', (req, res) => {
         leaveStartDate: req.body.leaveStartDate,
         leaveEndDate: req.body.leaveEndDate,
         typeOfLeave: req.body.typeOfLeave,
-        reasonForLeave: req.body.reasonForLeave
+        reasonForLeave: req.body.reasonForLeave,
+        contactNumber: req.body.contactNumber,
+        lengthOfLeaveDays: req.body.lengthOfLeaveDays
     });
     newEmployeeLeaveSession.save()
         .then((leaveSession) => {

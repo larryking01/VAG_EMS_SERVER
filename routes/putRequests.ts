@@ -86,7 +86,7 @@ putRouter.put('/update-employee-leave/:empID', ( req: Request, res: Response ) =
         contactNumber: req.body.contactNumber,
         lengthOfLeaveDays: req.body.lengthOfLeaveDays
 
-    }, { returnDocument: 'before' }).exec()
+    }, { returnDocument: 'after' }).exec()
     .then(( leaveSession: any ) => {
         console.log(`leave session updated successfully for employee, ${ req.params.empID } as follows ${ leaveSession }`)
         res.status( 200 ).json( leaveSession )
