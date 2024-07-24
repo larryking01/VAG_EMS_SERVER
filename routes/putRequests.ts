@@ -82,7 +82,9 @@ putRouter.put('/update-employee-leave/:empID', ( req: Request, res: Response ) =
         leaveStartDate: req.body.leaveStartDate,
         leaveEndDate: req.body.leaveEndDate,
         typeOfLeave: req.body.typeOfLeave,
-        reasonForLeave: req.body.reasonForLeave
+        reasonForLeave: req.body.reasonForLeave,
+        contactNumber: req.body.contactNumber,
+        lengthOfLeaveDays: req.body.lengthOfLeaveDays
 
     }, { returnDocument: 'before' }).exec()
     .then(( leaveSession: any ) => {

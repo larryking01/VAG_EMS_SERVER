@@ -11,6 +11,8 @@ interface EmployeeLeave {
     leaveEndDate: string;
     typeOfLeave: string;
     reasonForLeave: string;
+    contactNumber: string;
+    lengthOfLeaveDays: string;
 
 }
 
@@ -24,8 +26,10 @@ const EmployeeLeaveSchema = new Schema<EmployeeLeave>({
     employeeLastName: { type: String, required: true },
     leaveStartDate: { type: String, required: true },
     leaveEndDate: { type: String, required: true },
+    lengthOfLeaveDays: { type: String, required: true },
     typeOfLeave: { type: String, required: true },
-    reasonForLeave: { type: String, required: true }
+    reasonForLeave: { type: String, required: true },
+    contactNumber: { type: String, required: true }
 
 }, { timestamps: { createdAt: new Date().toDateString(), updatedAt: new Date().toLocaleString()}})
 
