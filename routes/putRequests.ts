@@ -29,7 +29,8 @@ putRouter.put('/update-employee-data/:empID', ( req: Request, res: Response ) =>
         department: req.body.department,
         dateOfEmployment: req.body.dateOfEmployment,
         bankAccountNumber: req.body.bankAccountNumber,
-        ssnitNumber: req.body.ssnitNumber
+        ssnitNumber: req.body.ssnitNumber,
+        employeePhoto: req.body.employeePhoto
     }, { returnDocument: 'before' }).exec()
     .then(( doc: any ) => {
         console.log(`document updated successfully in regular employee collection... ${ doc }`)
